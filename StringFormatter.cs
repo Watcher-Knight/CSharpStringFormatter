@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -35,5 +34,14 @@ public static class StringFormatter
 			if (!options.Contains(text + numberText)) return text + numberText;
 			currentNumber++;
 		}
+	}
+
+	public static (string[] dirs, string ext) ParsePath(this string path)
+	{
+		Match extMatch = Regex.Match(path, @"\.(\w+)$");
+		if (!extMatch.Success) throw new System.ArgumentException($"Invalid path: {path}");
+		string ext = extMatch.Value;
+		string[] dirs = path.Split(ext)[0].Split('/');
+		return (dirs, ext);
 	}
 }
